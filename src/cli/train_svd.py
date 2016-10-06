@@ -1,13 +1,10 @@
 import ReccomenderSystem
-from numpy import *
 import numpy as np
-from random import randrange
 import operator
 from os import listdir
 import csv
 import scipy
 import scipy.optimize
-import itertools
 
 # Loading the Data
 votes, num_games_1, num_users_1 = ReccomenderSystem.reading_votes('CSV/game_votes.csv')
@@ -23,9 +20,9 @@ genre_titles = ReccomenderSystem.reading_titles('CSV/genre_titles.csv')
 user_names = ReccomenderSystem.reading_titles('CSV/user_names.csv')
 
 # Constructing R
-R = ReccomenderSystem.construct_R(votes,ownerships,num_users,num_games)
-np.save('src/cli/R',R)
+R = np.load('src/cli/R.npy')
 
+print('Using 1 feature')
 num_features = 1
 regularization = 10
 X, Theta =  ReccomenderSystem.collaberative_filtering(num_games,num_users,num_features,R,regularization)

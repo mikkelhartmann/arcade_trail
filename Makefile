@@ -7,8 +7,9 @@
 psql: $(.psql)
 web:
 	python src/server.py
-genR: src/cli/R.npy
+gen_R: src/cli/R.npy
 train_svd: src/cli/Theta.npy src/cli/X.npy
+
 # Rules
 
 $(.psql): sql/dump.sql
@@ -18,8 +19,8 @@ $(.psql): sql/dump.sql
 	psql -c "\i sql/ArcadeTrail.sql" -d arcadetrail
 	touch $(.psql)
 
-src/cli/R.npy: $(.psql)
-	python src/generatingR.py
+src/cli/R.npy: $(.psql) src/genR.py
+	python src/genR.py
 
-src/cli/Theta.npy src/cli/X.npy:
-	python src/train_svd.py
+src/cli/Theta.npy src/cli/X.npy: src/cli/train_svd.py
+	PYTHONPATH=src python src/cli/train_svd.py
