@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+{% block body %}
+  <ul class=content>
+    <p>
+      Welcome! Go to /user_id/ # to look at the reccomendations for user #
+    </p>
+    <h2> Assosiation analysis yilds the following rules </h2>
+    <p>
+      <ol>
+      {% for item in assosiation_rules %}
+        <li> {{assosiation_rules[loop.index0]}} </li>
+      {% endfor %}
+      </ol>
+    </p>
+{% endblock %}
