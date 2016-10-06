@@ -31,7 +31,7 @@ def reading_titles(path_to_data):
 	titles = []
 	f = open(path_to_data)
 	for line in f.readlines():
-		line = line.strip()
+		line = line.replace('"','').strip().replace('\n','')
 		listFromLine = line.split(',')
 		if shape(listFromLine)[0] > 2:
 			listFromLine_new = [[],[]]
@@ -42,7 +42,8 @@ def reading_titles(path_to_data):
 			titles.append(listFromLine_new)
 		else:
 			titles.append(listFromLine)
-	return titles
+
+	return [[d,t.decode("unicode-escape")] for [d,t] in titles]
 
 # Constructing the R-matrix
 def construct_R(votes,ownerships,num_users,num_games):
@@ -224,7 +225,7 @@ def getMostPopularGames(votes,R,titles,user_names,user_id):
 	reccomendation_list = []
 	for i in range(0,10,1):
 		title_index = np.where(titles[:,0]==str(sortIndex[i]+1))
-		reccomendation_list.append(str(titles[title_index[0][0],1]))
+		reccomendation_list.append(titles[title_index[0][0],1])
 
 	return reccomendation_list
 
@@ -252,7 +253,7 @@ def getting_reccomendations(R,Theta,X,titles,user_names,user_id):
 
 	for i in range(0,10,1):
 		title_index = np.where(titles[:,0]==str(sortIndex[i]+1))
-		reccomendation_list.append(str(titles[title_index[0][0],1]))
+		reccomendation_list.append(titles[title_index[0][0],1])
 	return reccomendation_list
 
 def title_index_to_title(titles,title_index):
