@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+        body    {background-color: rgb(33, 33, 33)}
+        h1      {color:white}
+        p       {color:white}
+        </style>
+        <meta charset="utf-8">
+        <title>Overview of the Arcade trail Data Base</title>
+
+        <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
+
+
+        <!-- Load c3.css -->
+        <link href="css/c3.min.css" rel="stylesheet" type="text/css">
+        <link href="css/index.css" rel="stylesheet" type="text/css">
+        
+        <!-- Loading c3 .js files -->
+        <script src="/lib/d3.js" charset="utf-8"></script>
+        <!-- <script src="lib/d3.min.js" charset="utf-8"></script> -->
+        <script src="lib/c3.min.js" charset="utf-8"></script>
+        
+        <!-- Loading the .js file for figures -->
+        <script src="/js/Arcade_Trail_Game_Growth.js" charset="utf-8"></script>
+        <script src="/js/Arcade_Trail_Genre_Distribution.js"></script>
+        <script src="/js/Arcade_Trail_Release_Date_Distribution.js"></script>
+        <script src="/js/Arcade_Trail_Missing_Release_Date.js"></script>
+        <script src="/js/User_Comparison_Release_Date_Distribution.js"></script>
+        <script src="/js/User_Comparison_Genre_Distribution.js"></script>
+        <script src="/js/User_Comparison_Library_Cost.js"></script>
+        <script src="/js/Arcade_Trail_Missing_Genre.js"></script>
+    </head>
+    
+    <body>
+        <div align="left">
+            <h1> Overview of the Arcade trail Data Base </h1>
+            <p> Here we show how the number of games in the Arcade Trail data base has grown since the scrapers started doing their work in May 2015.</p>
+            <svg id="Arcade_Trail_Game_Growth" width="600" height="300"/>
+            <!-- <div id="Arcade_Trail_Game_Growth"></div> -->
+            <p> Since most of the games are collected with scrapers that are focusing on newly released and announced games most of the games in the Arcade Trail data base are rather new. The older games have either been added manually or through the link-up with a users steam account </p>
+            <div id="Arcade_Trail_Release_Date_Distribution"></div>
+            <p> Not all the scraped games come with a complete data set. For example, not all games have a release date. This may be because the a game was added without a release date, but it may simply be because the release date is unknown.</p>
+            <table>
+                <tr>
+                    <td><div id="Arcade_Trail_Missing_Release_Date"></div></td>
+                    <td><div id="Arcade_Trail_Missing_Genre"></div></td>
+                </tr>
+            </table>
+            <p> The three most common genres in the Arcade Trail are Indie, Action, and Adventure. </p> 
+            <div id="Arcade_Trail_Genre_Distribution"></div>
+            
+        </div>
+
+        <div align="center">
+            <h1> Comparing the libraries of Michael and Mikkel </h1>
+            <p>In Arcade Trail comparing your game library with that of your friends is easy.</p>
+            <div id="User_Comparison_Release_Date_Distribution"></div>
+            <div id="User_Comparison_Genre_Distribution"></div>
+            <div id="User_Comparison_Library_Cost"></div>
+        </div>
+    </body>
+</html>

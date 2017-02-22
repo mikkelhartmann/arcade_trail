@@ -6,7 +6,7 @@ import operator
 from os import listdir
 import csv
 import itertools
-import apriori
+#import apriori
 
 # Defining the function that loads the votes and ownerships
 def reading_votes(path_to_data):
@@ -42,8 +42,28 @@ def reading_titles(path_to_data):
 			titles.append(listFromLine_new)
 		else:
 			titles.append(listFromLine)
+	return titles
+	#return [[d, t.decode("unicode-escape")] for [d, t] in titles]
 
-	return [[d,t.decode("unicode-escape")] for [d,t] in titles]
+
+# Defining the function that loads game titles
+def reading_taglines(path_to_data):
+	f = open(path_to_data)
+	numberOfLines = len(f.readlines())
+	taglines = []
+	id = []
+	f = open(path_to_data)
+	for line in f.readlines():
+		listFromLine = line.split(',')
+		#print(listFromLine[1])
+		#print(len(listFromLine[1]))
+		if len(listFromLine)==2:
+			if len(listFromLine[1])>3:
+				taglines.append(listFromLine[1])
+				#print(listFromLine[1])
+				id.append(listFromLine[0])
+	return id, taglines
+
 
 # Constructing the R-matrix
 def construct_R(votes,ownerships,num_users,num_games):
@@ -58,21 +78,6 @@ def construct_R(votes,ownerships,num_users,num_games):
 	    current_game = int(ownerships[ii,0])-1
 	    R[current_user,current_game] = 1
 	return R
-
-# def consruct_assosiation_list(path_to_data):
-# 	f = open(path_to_data)
-# 	numberOfLines = len(f.readlines())
-# 	votes = zeros((numberOfLines,2))
-# 	f = open(path_to_data)
-# 	index = 0
-# 	for line in f.readlines():
-# 		line = line.strip()
-# 		listFromLine = line.split(',')
-# 		votes[index,:] = listFromLine[0:2]
-# 		index += 1
-# 	num_games = int(max(votes[:,0]))
-# 	num_users = int(max(votes[:,1]))
-# 	return votes, num_games, num_users
 
 # ------------------------------------------------------------------------------
 # Functions relevant to coontent based reccomendations

@@ -35,6 +35,8 @@ genres, num_games, num_attributes = ReccomenderSystem.reading_votes('CSV/game_ge
 genre_titles = ReccomenderSystem.reading_titles('CSV/genre_titles.csv')
 user_names = ReccomenderSystem.reading_titles('CSV/user_names.csv')
 
+taglines = ReccomenderSystem.reading_taglines('../CSV/game_tagline.csv')
+
 # Constructing R
 R = ReccomenderSystem.construct_R(votes,ownerships,num_users,num_games)
 np.save('R',R)

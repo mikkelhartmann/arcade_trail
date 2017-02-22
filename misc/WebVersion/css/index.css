@@ -1,0 +1,81 @@
+/* THIS IS THE CSS NESCESSARY TO GET MADS' SCATTER PLOT TO WORK */
+.axis text {
+  font-family: 'Lato', sans-serif;
+  font-size: 12px;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crisp-edges;
+}
+
+.dot:hover {
+  stroke: black;
+  stroke-width: 2px;
+  cursor: pointer;
+}
+
+/**
+ * The scatter plot
+ */
+
+#scatter {
+  display: block;
+  margin: 0px auto;
+}
+
+/**
+ * The log plot
+ */
+#log-plot {
+  display: block;
+  margin: 0px auto;
+}
+
+#log-plot .dot {
+  fill: rgba(22, 96, 167, 0.2);
+}
+
+.p {
+	text-align: 'left';
+}
+
+/**
+ * The following styles are for the document, not the SVG elements.
+ */
+
+body {
+    font-family: 'Lato', sans-serif;
+    width: 80%;
+    max-width: 800px;
+    margin: 0px auto;
+}
+
+* {
+	font-family: 'Lato', sans-serif;
+}
+
+.c3 svg {font: 14px 'Lato';}
+
+path.domain { stroke: white; }
+.c3-legend-item text { stroke: white; }
+.c3-axis-x path, .c3 .c3-axis-x line {stroke: white;}
+.c3-axis-x path, .c3 .c3-axis-x text {stroke: white;}
+.c3-axis-y path, .c3 .c3-axis-y line {stroke: white;}
+
+.c3-axis-y path, 
+.c3-axis-y text {
+	stroke: white;
+}
+
+.c3-chart-arcs-title {
+	fill: white;
+}
+
+.tick text {
+	fill: orange;
+}
+
+
