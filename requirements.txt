@@ -1,7 +1,5 @@
-python3 
 numpy
 matplotlib
-jupyter notebook
 scipy
 sklearn
 nltk
