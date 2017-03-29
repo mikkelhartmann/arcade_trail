@@ -1,12 +1,11 @@
-# This is the python implementation of the reccomender system i first developed
-# in MatLab
+""" This is the python implementation of the reccomender system i first developed"""
 from numpy import *
 import numpy as np
 import operator
 from os import listdir
 import csv
 import itertools
-#import apriori
+
 
 # Defining the function that loads the votes and ownerships
 def reading_votes(path_to_data):
@@ -43,8 +42,6 @@ def reading_titles(path_to_data):
 		else:
 			titles.append(listFromLine)
 	return titles
-	#return [[d, t.decode("unicode-escape")] for [d, t] in titles]
-
 
 # Defining the function that loads game titles
 def reading_taglines(path_to_data):
@@ -220,12 +217,6 @@ def getMostPopularGames(votes,R,titles,user_names,user_id):
 	name = user_names[name_index,1]
 
 	titles = np.matrix(titles)
-
-	# printing the top 10 reccomendations
-	#print 'The top 10 reccomendations for %s' % name + ' (user_id %s' % str(user_index+1) +')'
-	#for i in range(0,10,1):#range(10):
-	#    title_index = np.where(titles[:,0]==str(sortIndex[i]+1))
-	#    print(i+1, titles[title_index[0][0],1])
 
 	reccomendation_list = []
 	for i in range(0,10,1):
