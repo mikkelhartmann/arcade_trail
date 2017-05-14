@@ -6,7 +6,6 @@ from os import listdir
 import csv
 import itertools
 
-
 # Defining the function that loads the votes and ownerships
 def reading_votes(path_to_data):
 	f = open(path_to_data)
@@ -258,7 +257,7 @@ def title_index_to_title(titles,title_index):
 	title = titles[title_lookup[0][0],1]
 	return title
 
-def get_assosiation_rules(minSupport,minConf):
+def get_assosiation_rules(minSupport, minConf):
 	R = np.load('src/cli/R.npy')
 	R = np.array(R.tolist())
 
@@ -277,11 +276,11 @@ def get_assosiation_rules(minSupport,minConf):
 	        assosiationList.remove(item)
 
 	# Doing the assosiation analysis
-	L,suppData = apriori.apriori(assosiationList,minSupport=minSupport)
+	L, suppData = apriori.apriori(assosiationList,minSupport=minSupport)
 	rules = apriori.generateRules(L[0:2],suppData,minConf=minConf)
 
 	# Loading the titles
-	titles = reading_titles('CSV/game_titles.csv')
+	titles = reading_titles('data/CSV/game_titles.csv')
 
 	# Pritty printing the assosiation rules
 	rule_string = []

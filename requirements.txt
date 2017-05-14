@@ -4,3 +4,4 @@ scipy
 sklearn
 nltk
 jupyter
+flask

@@ -1,0 +1,13 @@
+{% extends "layout.html" %}
+{% block body %}
+  <ul class=content>
+    <p>
+      Based on the text you entered we give the following probability to the genres::
+    </p>
+    <ol>
+    {% for item in list %}
+      <li> {{list[loop.index0]}} </li>
+    {% endfor %}
+    </ol>
+  </ul>
+{% endblock %}

@@ -1,5 +1,5 @@
-body            { font-family: sans-serif; background: #191919; }
-p, li, a, h1, h2       { color: white; }
+body            { font-family: sans-serif; background: white; }
+p, li, a, h1, h2       { color: black; }
 h1, h2          { font-family: 'Georgia', serif; margin: 0; }
 h2              { font-size: 1.2em; }
 

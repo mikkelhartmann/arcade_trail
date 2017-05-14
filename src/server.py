@@ -6,93 +6,62 @@
 from flask import Flask
 from flask import request, render_template
 
+import matplotlib.pyplot as plt
+import numpy as np
+import scipy.sparse as sp
+
+from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.feature_extraction.text import TfidfTransformer
+from sklearn.feature_extraction.text import TfidfVectorizer
+
+from sklearn.naive_bayes import MultinomialNB
+from sklearn.linear_model import SGDClassifier
+
+from sklearn.base import clone
+
+from sklearn.pipeline import Pipeline
+from sklearn import metrics
+
+from nltk import word_tokenize
+from nltk.stem.wordnet import WordNetLemmatizer
+
+from sklearn.externals import joblib
+
+class LemmaTokenizer(object):
+        def __init__(self):
+            self.wnl = WordNetLemmatizer()
+        def __call__(self, doc):
+            return [self.wnl.lemmatize(t) for t in word_tokenize(doc)]
+
 app = Flask(__name__)
-
-@app.route('/user_id/<int:user_id>')
-def show_post(user_id):
-    import ReccomenderSystem
-    import numpy as np
-    from random import randrange
-    import operator
-    from os import listdir
-    import csv
-    import scipy
-    import scipy.optimize
-    import itertools
-    import matplotlib.pyplot as plt
-    # Loading the Data
-    votes, num_games_1, num_users_1 = ReccomenderSystem.reading_votes('CSV/game_votes.csv')
-    ownerships, num_games_2, num_users_2 = ReccomenderSystem.reading_votes('CSV/game_ownerships.csv')
-
-    # since the number of users from the votes and ownerships lists may differ
-    # i chose the largest one here
-    num_games = max([num_games_1, num_games_2])
-    num_users = max([num_users_1, num_users_2])
-    titles = ReccomenderSystem.reading_titles('CSV/game_titles.csv')
-    genres, num_games, num_attributes = ReccomenderSystem.reading_votes('CSV/game_genres.csv')
-    genre_titles = ReccomenderSystem.reading_titles('CSV/genre_titles.csv')
-    user_names = ReccomenderSystem.reading_titles('CSV/user_names.csv')
-
-    # Constructing R
-    R = ReccomenderSystem.construct_R(votes,ownerships,num_users,num_games)
-
-    # ------------------------------------------------------------------------------
-    # Non-personalized reccomendations
-    # Getting the reccomendations from the simple sorting
-    # ------------------------------------------------------------------------------
-    pop_recs = ReccomenderSystem.getMostPopularGames(votes,R,titles,user_names,user_id)
-
-    # ------------------------------------------------------------------------------
-    # Personalized reccomendations
-    # Content Based Reccomendations
-    # ------------------------------------------------------------------------------
-    attrVec = ReccomenderSystem.construct_attrVec(genres,num_games,num_attributes)
-    ContentBasedPredictions = ReccomenderSystem.construct_ContentBasedPredictions(attrVec,R)
-    content_recs = ReccomenderSystem.getContentBasedPrecition(ContentBasedPredictions,titles,user_names,user_id)
-
-    # ------------------------------------------------------------------------------
-    # Personalized reccomendations
-    # Running collaborative filtering
-    # ------------------------------------------------------------------------------
-    X = np.load('src/cli/X.npy')
-    Theta = np.load('src/cli/Theta.npy')
-    svd_recs= ReccomenderSystem.getting_reccomendations(R,Theta,X,titles,user_names,user_id)
-
-    # ------------------------------------------------------------------------------
-    # returning the template
-    # ------------------------------------------------------------------------------
-    return render_template('reccomendations.html',
-        svd_recs=svd_recs, pop_recs=pop_recs, content_recs=content_recs, user_id=user_id)
 
 @app.route('/')
 def hello_world():
-    import ReccomenderSystem
-    import numpy as np
-    from random import randrange
-    import operator
-    from os import listdir
-    import csv
-    import scipy
-    import scipy.optimize
-    import itertools
-    import matplotlib.pyplot as plt
-    # Loading the Data
-    votes, num_games_1, num_users_1 = ReccomenderSystem.reading_votes('CSV/game_votes.csv')
-    ownerships, num_games_2, num_users_2 = ReccomenderSystem.reading_votes('CSV/game_ownerships.csv')
+    return render_template('landingPage.html')
 
-    # since the number of users from the votes and ownerships lists may differ
-    # i chose the largest one here
-    num_games = max([num_games_1, num_games_2])
-    num_users = max([num_users_1, num_users_2])
-    titles = ReccomenderSystem.reading_titles('CSV/game_titles.csv')
-    genres, num_games, num_attributes = ReccomenderSystem.reading_votes('CSV/game_genres.csv')
-    genre_titles = ReccomenderSystem.reading_titles('CSV/genre_titles.csv')
-    user_names = ReccomenderSystem.reading_titles('CSV/user_names.csv')
+@app.route('/', methods=['POST'])
+def my_form_post():
 
-    assosiation_rules = ReccomenderSystem.get_assosiation_rules(0.08,0.55)
-    return render_template('landingPage.html',
-        assosiation_rules = assosiation_rules)
+    text = request.form['text']
 
+    genre_names = ['Action', 'Indie', 'Strategy', 'Early Access', 'Free to Play', 'Massively Multiplayer', 'RPG',
+                'Adventure', 'Casual', 'Simulation', 'Racing', 'Sports', 'Audio Production', 'Utilities', 
+                'Video Production', 'Education', 'Design & Illustration', 'Web Publishing', 'Photo Editing',
+                'Software Training', 'Animation & Modeling', 'Puzzle', 'Platformer', 'Survival', 'Shooter', 
+                'Horror', 'Sandbox', 'Music', 'Fighting', 'Hidden Objects', 'Accounting']
+
+    model_collection = joblib.load('data/model_collection.pkl') 
+    pred_list = []
+    
+    for idx, clf in enumerate(model_collection):
+        pred = clf.predict_proba(text)
+        pred_list.append(pred[:,1])
+        #print(pred[:,1], genre_names[idx])
+
+    sort_idx = sorted(range(len(pred_list)), key=lambda k: pred_list[k], reverse=True)
+    my_list = [(pred_list[idx], genre_names[idx]) for idx in sort_idx]
+
+    return render_template('recommendations.html', list=my_list)
 
 if __name__ == '__main__':
     app.debug = True
