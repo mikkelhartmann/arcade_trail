@@ -5,6 +5,21 @@
 from flask import Flask
 from flask import request, render_template
 
+import numpy as np
+import scipy.sparse as sp
+from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.feature_extraction.text import TfidfTransformer
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.naive_bayes import MultinomialNB
+from sklearn.linear_model import SGDClassifier
+from sklearn.pipeline import Pipeline
+from sklearn.base import clone
+from sklearn import metrics
+from sklearn.externals import joblib
+
+from nltk import word_tokenize
+from nltk.stem.wordnet import WordNetLemmatizer
+
 class LemmaTokenizer(object):
         def __init__(self):
             self.wnl = WordNetLemmatizer()
@@ -25,7 +40,7 @@ def my_form_post():
                 'Video Production', 'Education', 'Design & Illustration', 'Web Publishing', 'Photo Editing',
                 'Software Training', 'Animation & Modeling', 'Puzzle', 'Platformer', 'Survival', 'Shooter', 
                 'Horror', 'Sandbox', 'Music', 'Fighting', 'Hidden Objects', 'Accounting']
-    model_collection = joblib.load('data/model_collection.pkl') 
+    model_collection = joblib.load('model_collection.pkl') 
     pred_list = []
     for idx, clf in enumerate(model_collection):
         pred = clf.predict_proba(text)
