@@ -1,0 +1,10 @@
+{% extends "layout.html" %}
+{% block body %}
+  <ul class=content>
+    <p> Welcome! Write some text in the field below and we will suggest which genres to use when describing the game.</p>
+  <form action="." method="POST">
+        <input type="text" name="text">
+        <input type="submit" name="my-form" value="Send">
+  </form>
+  </ul>
+{% endblock %}
