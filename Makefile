@@ -2,6 +2,10 @@
 # Variables
 .psql := _build/psql
 
+python_files := \
+	$(wildcard src/*.py) \
+	$(wildcard src/**/*.py)
+
 # Targets
 
 psql: $(.psql)
@@ -24,3 +28,6 @@ src/cli/R.npy: $(.psql) src/genR.py
 
 src/cli/Theta.npy src/cli/X.npy: src/cli/train_svd.py
 	PYTHONPATH=src python src/cli/train_svd.py
+
+format: $(python_files)
+	env/bin/autopep8 --in-place --aggressive --aggressive $^

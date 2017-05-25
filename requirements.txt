@@ -5,3 +5,8 @@ sklearn
 nltk
 jupyter
 flask
+
+flake8
+pydocstyle
+pylint
+autopep8
