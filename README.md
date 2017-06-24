@@ -21,9 +21,19 @@ When you are done working, remember to deactivate the virutal environment:
 
 `deactivate`
 
+### Installing NLTK data
+For the language analysis we need the data from NLTK. To download the data run:
+
+`python -m nltk.downloader all`
+
 ### Running the Jupyter Notebook locally
 Once the virtual environment in set up, the Jupyter notebook can be run by doing:
 
 `jupyter notebook classifying_genres_from_description.ipynb`
+
+### How to try out the product
+Run try out the classification algorithm on your own game descriptions run the following command in the terminal:
+
+`Make web`
 
 ## Example of output code
