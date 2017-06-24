@@ -10,9 +10,7 @@ python_files := \
 
 psql: $(.psql)
 web:
-	python src/server.py
-gen_R: src/cli/R.npy
-train_svd: src/cli/Theta.npy src/cli/X.npy
+	python server.py
 
 # Rules
 
