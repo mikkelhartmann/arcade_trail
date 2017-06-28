@@ -19,6 +19,6 @@ COPY static static
 COPY templates templates
 COPY model_collection.pkl .
 
-EXPOSE 8080 
+EXPOSE 80
 
-CMD ["python3", "server.py"]
+CMD ["gunicorn", "-w", "4", "-b", "0.0.0.0:80", "server:app"]
