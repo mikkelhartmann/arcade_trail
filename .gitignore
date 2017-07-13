@@ -1,3 +1,6 @@
+# trained models that are large
+training/
+
 *.DS_Store
 .AppleDouble
 .LSOverride
