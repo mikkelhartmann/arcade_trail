@@ -2,11 +2,17 @@
 {% block body %}
   <ul class=content>
     <p>
-      Based on the text you entered we give the following probability to the genres::
+      Based on the text you entered: we give the following probability to the genres:
+    </p>
+    <p class=input_text>
+      {{text}}
+    </p>
+    <p>
+      We suggest the following tags:
     </p>
     <ol>
     {% for item in list %}
-      <li> {{item}} </li>
+      <li> {{item[0]}} with ({{item[1]}}) probability </li>
     {% endfor %}
     </ol>
   </ul>

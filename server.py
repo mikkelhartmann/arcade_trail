@@ -81,12 +81,14 @@ def make_prediction_with_nn(zero_padded_example, nn_model_collection, selected_t
 
     sort_idx = sorted(range(len(pred_list)), key=lambda k: pred_list[k], reverse=True)
     my_list = [(pred_list[idx], selected_tag_names[idx]) for idx in sort_idx]
+    above_threshold = []
     for item in my_list:
         proba = item[0][0][0]
         genre_name = item[1]
         if proba > 0.05:
             print(genre_name, proba)
-    return my_list
+            above_threshold.append([genre_name, proba])
+    return above_threshold
 
 @app.route('/')
 def hello_world():
@@ -140,7 +142,7 @@ def my_form_post():
     # Loading the neural networds
     t0 = time.time()
     nn_2_model_collection = []
-    for i in range(len(selected_tag_names)):
+    for i in range(5):
         model = load_model('models/steam_nn_model_collection_' + str(i) + '.h5')
         nn_2_model_collection.append(model)
         if i%5==0:
@@ -161,7 +163,7 @@ def my_form_post():
     t1 = time.time()
     print('It took ', (t1-t0)/60, ' min to make these prediction')
     
-    return render_template('recommendations.html', list=my_list)
+    return render_template('recommendations.html',text=text, list=my_list)
 
 if __name__ == '__main__':
     app.debug = True
