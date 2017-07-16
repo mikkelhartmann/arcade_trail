@@ -13,3 +13,7 @@ gunicorn
 gensim
 bs4
 lxml
+keras
+jupyter_contrib_nbextensions
+jupyter_nbextensions_configurator
+h5py

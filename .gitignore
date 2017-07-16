@@ -1,5 +1,6 @@
 # trained models that are large
-training/
+models/GoogleNews-vectors-negative300.bin
+data/steam_tag_metrix_3.npy
 
 *.DS_Store
 .AppleDouble
