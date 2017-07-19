@@ -4,7 +4,7 @@
 import os
 
 from flask import Flask
-from flask import request, render_template
+from flask import request, render_template, g
 import time
 import numpy as np
 import re
@@ -90,13 +90,11 @@ def make_prediction_with_nn(zero_padded_example, nn_model_collection, selected_t
             above_threshold.append([genre_name, proba])
     return above_threshold
 
-@app.route('/')
-def hello_world():
-    
-    return render_template('landingPage.html')
-
-@app.route('/', methods=['POST'])
-def my_form_post():
+@app.before_first_request
+def load_huge_file():
+    global nn_2_model_collection
+    global top_n_words_dict
+    global selected_tag_names
     selected_tag_names = [
         'Horror',
         'Sci-fi',
@@ -142,29 +140,33 @@ def my_form_post():
     # Loading the neural networds
     t0 = time.time()
     nn_2_model_collection = []
-    for i in range(5):
+    print('Loading the models')
+    for i in range(40):
         model = load_model('models/steam_nn_model_collection_' + str(i) + '.h5')
         nn_2_model_collection.append(model)
         if i%5==0:
             t1 = time.time()
             print((t1-t0)/60, ' min to load the models')
     
-    # Loading the dictionary
+    print('Loading the dictionary mapping tag ids to tag names')
     top_n_words_dict = np.load('data/top_n_words_dict.npy').item()
-    
+    zero_padded_example = pre_process_for_nn('Making first prediction', top_n_words_dict)
+    _ = make_prediction_with_nn(zero_padded_example, nn_2_model_collection, selected_tag_names)
+    print('Loaded the tag names')
+
+@app.route('/')
+def hello_world():
+    return render_template('landingPage.html')
+
+@app.route('/', methods=['POST'])
+def my_form_post():
     # Pre-processing the input from the text field
     text = request.form['text']
     zero_padded_example = pre_process_for_nn(text, top_n_words_dict)
-    
     # Making predictions with the neural networks
-    print('Predicting with neural networks ...')
-    t0 = time.time()
     my_list = make_prediction_with_nn(zero_padded_example, nn_2_model_collection, selected_tag_names)
-    t1 = time.time()
-    print('It took ', (t1-t0)/60, ' min to make these prediction')
-    
     return render_template('recommendations.html',text=text, list=my_list)
 
 if __name__ == '__main__':
-    app.debug = True
+    app.debug = False
     app.run('0.0.0.0', port=8080)
