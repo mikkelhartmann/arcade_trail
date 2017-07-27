@@ -8,12 +8,6 @@ from sklearn import metrics
 # -----------------------------------------------------------------------------------------------------
 # Functions that are used to make plotting figures in the notebook easier
 # -----------------------------------------------------------------------------------------------------
-
-
-
-# -----------------------------------------------------------------------------------------------------
-# Functions that are used to make plotting figures in the notebook easier
-# -----------------------------------------------------------------------------------------------------
 def make_prediction(X_test, model):
     y_score = model.predict_proba(X_test)
     if y_score.shape[1]<2:

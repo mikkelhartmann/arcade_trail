@@ -26,7 +26,7 @@ def load_huge_file():
     selected_tag_names = list(np.load('data/selected_tag_names.npy'))
     print('Loading the models')
     num_models = len(selected_tag_names)
-    model_collection = src.load_models(1)
+    model_collection = src.load_models(num_models)
     print('Loading the dictionary mapping tag ids to tag names')
     top_n_words_dict = np.load('data/top_n_words_dict.npy').item()
     print('Making a prediction with the models to initiate them')

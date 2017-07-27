@@ -61,7 +61,7 @@ def load_models(num_models):
     for i in range(num_models):
         model = load_model('models/steam_nn_model_collection_' + str(i) + '.h5')
         model_collection.append(model)
-        return model_collection
+    return model_collection
 
 def make_example_from_index(idx):
     example = descriptions[relevant_description_idx[idx]]

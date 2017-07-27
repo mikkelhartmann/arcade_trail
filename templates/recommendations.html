@@ -3,7 +3,7 @@
 {% import "bootstrap/wtf.html" as wtf %}
 
 {% block body %}
-  <ul class=content>
+  <div class=content>
     {{ wtf.quick_form(form) }}
     <p>
       Based on the text you entered: we give the following probability to the genres:
@@ -15,7 +15,14 @@
       We suggest the following tags:
     </p>
     {% for item in list %}
-      <span> {{item[0]}} with ({{item[1]}}) probability </span>
+      <div class="game-tag"> 
+        <span class="tag-name">
+          {{item[0]}}
+        </span>
+        <span class="tag-probability">
+          ({{item[1]}}) 
+        </span>
+      </div>
     {% endfor %}
-  </ul>
+  </div>
 {% endblock %}
