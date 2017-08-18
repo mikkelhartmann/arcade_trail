@@ -10,7 +10,7 @@ python_files := \
 
 psql: $(.psql)
 web:
-	python server.py
+	python server.py runserver
 
 # Rules
 
